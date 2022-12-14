@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bigrocket.recyclerviewkotlin.models.Profile
 import kotlinx.android.synthetic.main.res_item_profile.view.*
 
-class ProfileAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ProfileAdapter(private val onItemClicked: (Profile) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var items: List<Profile>
 
@@ -21,7 +21,7 @@ class ProfileAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ProfileViewHolder -> {
-                holder.bind(items[position])
+                holder.bind(items[position], onItemClicked)
             }
         }
     }
@@ -41,10 +41,14 @@ class ProfileAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val profileLanguage = itemView.language
         private val profileImage = itemView.image
 
-        fun bind(profile: Profile) {
+        fun bind(profile: Profile, onItemClicked: (Profile) -> Unit) {
             profileName.text = profile.name
             profileLanguage.text = profile.languagem
             profileImage.setImageResource(profile.image)
+
+            itemView.setOnClickListener {
+                onItemClicked(profile)
+            }
         }
     }
 }

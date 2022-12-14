@@ -1,5 +1,7 @@
 package com.bigrocket.recyclerviewkotlin
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,9 +26,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        profileAdapter = ProfileAdapter()
+        profileAdapter = ProfileAdapter { profile ->
+            openGithub()
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
         recyclerView.adapter = profileAdapter
+    }
+
+    private fun openGithub() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kaueludovico"))
+        startActivity(intent)
     }
 }
